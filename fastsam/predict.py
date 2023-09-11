@@ -54,22 +54,4 @@ class FastSAMPredictor(DetectionPredictor):
             results.append(
                 Results(orig_img=orig_img, path=img_path, names=self.model.names, boxes=pred[:, :6], masks=masks))
 
-            # Convertir datos a formatos serializables
-            # (Esto es solo un ejemplo, puede que necesites adaptarlo según el tipo de datos)
-            serializable_results = [list(item) for item in results]
-            serializable_masks = [list(item) for item in masks]
-            serializable_p = [list(item) for item in p]
-            
-            # Crear un diccionario con los datos
-            data = {
-                "results": serializable_results,
-                "masks": serializable_masks,
-                "p": serializable_p
-            }
-            
-            # Guardar el diccionario en un archivo JSON
-            with open("/content/output_data.json", "w") as json_file:
-                json.dump(data, json_file)
-
-
         return results
