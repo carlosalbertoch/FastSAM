@@ -1,5 +1,5 @@
 import torch
-
+import json
 from ultralytics.yolo.engine.results import Results
 from ultralytics.yolo.utils import DEFAULT_CFG, ops
 from ultralytics.yolo.v8.detect.predict import DetectionPredictor
@@ -53,4 +53,23 @@ class FastSAMPredictor(DetectionPredictor):
                     pred[:, :4] = ops.scale_boxes(img.shape[2:], pred[:, :4], orig_img.shape)
             results.append(
                 Results(orig_img=orig_img, path=img_path, names=self.model.names, boxes=pred[:, :6], masks=masks))
-        return results, masks, p
+
+            # Convertir datos a formatos serializables
+            # (Esto es solo un ejemplo, puede que necesites adaptarlo según el tipo de datos)
+            serializable_results = [list(item) for item in results]
+            serializable_masks = [list(item) for item in masks]
+            serializable_p = [list(item) for item in p]
+            
+            # Crear un diccionario con los datos
+            data = {
+                "results": serializable_results,
+                "masks": serializable_masks,
+                "p": serializable_p
+            }
+            
+            # Guardar el diccionario en un archivo JSON
+            with open("/content/output_data.json", "w") as json_file:
+                json.dump(data, json_file)
+
+
+        return results
