@@ -57,25 +57,5 @@ class FastSAMPredictor(DetectionPredictor):
         print("Longitud de results:", len(results))
         print("Longitud de masks:", len(masks))
         print("Longitud de p:", len(p))    
-        # Intenta serializar y escribir en JSON
-        try:
-            # Convertir datos a formatos serializables
-            serializable_results = [list(item) for item in results]
-            serializable_masks = [list(item) for item in masks]
-            serializable_p = [list(item) for item in p]
-            
-            # Crear un diccionario con los datos
-            data = {
-                "results": serializable_results,
-                "masks": serializable_masks,
-                "p": serializable_p
-            }
-            
-            # Guardar el diccionario en un archivo JSON
-            with open("/content/output_data.json", "w") as json_file:
-                json.dump(data, json_file)
-            print("Archivo JSON creado exitosamente.")
-        except Exception as e:
-            print("Error al crear el archivo JSON:", e)
 
         return results
